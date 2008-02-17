@@ -10,6 +10,7 @@ import derplayer.Musica;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 
 /**
 @author  Andoreh
@@ -24,9 +25,10 @@ public class EditarTags extends javax.swing.JFrame {
         initComponents();
         caminhoMusica.setText(musica.getCaminhoArquivo());
         campoArtista.setText(musica.getArtista());
-        campoTitulo.setText(musica.getNome());
+        campoTitulo.setText(musica.getTitulo());
+        campoArtista.requestFocus();
     }
-
+    
     private Rectangle getPosicao() {
         int largura = 300;
         int altura = 184;
@@ -51,7 +53,7 @@ public class EditarTags extends javax.swing.JFrame {
         campoTitulo = new javax.swing.JTextField();
         campoArtista = new javax.swing.JTextField();
         btCancelar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar tags");
@@ -67,6 +69,28 @@ public class EditarTags extends javax.swing.JFrame {
         jLabel2.setText("Artista:");
 
         jLabel3.setText("Titulo:");
+
+        campoTitulo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                campoTituloFocusGained(evt);
+            }
+        });
+        campoTitulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                campoTituloKeyPressed(evt);
+            }
+        });
+
+        campoArtista.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                campoArtistaFocusGained(evt);
+            }
+        });
+        campoArtista.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                campoArtistaKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,10 +129,10 @@ public class EditarTags extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Salvar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btSalvar.setText("Salvar");
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btSalvarActionPerformed(evt);
             }
         });
 
@@ -123,7 +147,7 @@ public class EditarTags extends javax.swing.JFrame {
                     .addComponent(caminhoMusica, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                     .addComponent(jLabel1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(btSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btCancelar)))
                 .addContainerGap())
@@ -140,30 +164,54 @@ public class EditarTags extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)
-                    .addComponent(jButton2))
+                    .addComponent(btSalvar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         musica.setArtista(campoArtista.getText());
-        musica.setNome(campoTitulo.getText());
+        musica.setTitulo(campoTitulo.getText());
         musica.atualizarTags();
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+}//GEN-LAST:event_btSalvarActionPerformed
 
+    private void campoArtistaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoArtistaKeyPressed
+       manipularTecla(evt);
+    }//GEN-LAST:event_campoArtistaKeyPressed
+
+    private void campoArtistaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoArtistaFocusGained
+        campoArtista.selectAll();
+    }//GEN-LAST:event_campoArtistaFocusGained
+
+    private void campoTituloFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoTituloFocusGained
+        campoTitulo.selectAll();
+    }//GEN-LAST:event_campoTituloFocusGained
+
+    private void campoTituloKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTituloKeyPressed
+       manipularTecla(evt);
+    }//GEN-LAST:event_campoTituloKeyPressed
+
+    private void manipularTecla(java.awt.event.KeyEvent evt){
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btSalvarActionPerformed(null);
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            btCancelarActionPerformed(null);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btSalvar;
     private javax.swing.JTextField caminhoMusica;
     private javax.swing.JTextField campoArtista;
     private javax.swing.JTextField campoTitulo;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

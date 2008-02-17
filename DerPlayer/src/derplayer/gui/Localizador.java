@@ -24,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
 public class Localizador extends javax.swing.JFrame {
 
     static Localizador instanciaAtual;
-    List teclasNeutras;
+    private static List teclasNeutras;
 
     public static void exibir() {
         if (instanciaAtual == null) {
@@ -37,9 +37,20 @@ public class Localizador extends javax.swing.JFrame {
     /** Creates new form Localizador */
     public Localizador() {
         initComponents();
-        teclasNeutras = new ArrayList();
-        teclasNeutras.add(KeyEvent.VK_LEFT);
-        teclasNeutras.add(KeyEvent.VK_RIGHT);
+
+        if (teclasNeutras == null) {
+            teclasNeutras = new ArrayList();
+            teclasNeutras.add(KeyEvent.VK_LEFT);
+            teclasNeutras.add(KeyEvent.VK_RIGHT);
+            teclasNeutras.add(KeyEvent.VK_UP);
+            teclasNeutras.add(KeyEvent.VK_DOWN);
+
+            teclasNeutras.add(KeyEvent.VK_ALT);
+            teclasNeutras.add(KeyEvent.VK_ALT_GRAPH);
+            teclasNeutras.add(KeyEvent.VK_CONTROL);
+            teclasNeutras.add(KeyEvent.VK_SHIFT);
+            teclasNeutras.add(KeyEvent.VK_CAPS_LOCK);
+        }
     }
 
     /** This method is called from within the constructor to
@@ -64,6 +75,9 @@ public class Localizador extends javax.swing.JFrame {
         jLabel1.setText("Procurar por");
 
         campoBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                campoBuscaKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 campoBuscaKeyReleased(evt);
             }
@@ -87,6 +101,11 @@ public class Localizador extends javax.swing.JFrame {
         });
         tabelaResultados.setShowHorizontalLines(false);
         tabelaResultados.setShowVerticalLines(false);
+        tabelaResultados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaResultadosMouseClicked(evt);
+            }
+        });
         tabelaResultados.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tabelaResultadosFocusGained(evt);
@@ -142,33 +161,25 @@ public class Localizador extends javax.swing.JFrame {
                 modelo.removeRow(0);
          }
     }
+    
+    private void selecionaLInha(int novaSelecao){
+        tabelaResultados.setRowSelectionInterval(novaSelecao, novaSelecao);
+        Rectangle r = tabelaResultados.getCellRect(novaSelecao, 0, true);
+        tabelaResultados.scrollRectToVisible(r);        
+    }
 
 private void campoBuscaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscaKeyReleased
     
     DefaultTableModel modelo = (DefaultTableModel) tabelaResultados.getModel();
-    
+    int totalLinhasAntes = modelo.getRowCount();
     int teclaPressionada = evt.getKeyCode();
     int linhaSelecionada = tabelaResultados.getSelectedRow();
     
-    if(teclaPressionada == KeyEvent.VK_DOWN){     
-        int novaSelecao = linhaSelecionada+1;
-        if(novaSelecao >= modelo.getRowCount()){
-            novaSelecao = modelo.getRowCount()-1;
-        }
-        tabelaResultados.setRowSelectionInterval(novaSelecao, novaSelecao);        
+    if (teclasNeutras.contains(teclaPressionada)) {
         return;
     }
-    
-    if(teclaPressionada == KeyEvent.VK_UP){     
-        int novaSelecao = linhaSelecionada-1;
-        if(novaSelecao <= 0){
-            novaSelecao = 0;
-        }
-        tabelaResultados.setRowSelectionInterval(novaSelecao, novaSelecao);
-        return;
-    }
-    
-    if(teclaPressionada == KeyEvent.VK_ENTER){     
+
+    if (teclaPressionada == KeyEvent.VK_ENTER){     
         if(linhaSelecionada>=0){
             Musica musica = (Musica) tabelaResultados.getValueAt(linhaSelecionada, 0);
             Main.getPlayList().tocar(musica);
@@ -177,13 +188,10 @@ private void campoBuscaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
         return;
     }
         
-    if(teclasNeutras.contains(teclaPressionada)){
-        return;
-    }
-    
     String palavraBuscada = campoBusca.getText().trim().toLowerCase();
         
-    List<Musica> musicas = Main.getPlayList().consultarListaMusicas();            
+    List<Musica> musicas = Main.getPlayList().consultarListaMusicas();  
+    
     while(modelo.getRowCount() > 0){
         modelo.removeRow(0);
     }
@@ -194,26 +202,82 @@ private void campoBuscaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
         }
     }   
     
-    if(modelo.getRowCount()>0){
-        tabelaResultados.setRowSelectionInterval(0, 0);
-    }
-    
+    int totalLinhasAgora = modelo.getRowCount();
+    if (totalLinhasAgora > 0) {
+        if(totalLinhasAntes == totalLinhasAgora){
+            selecionaLInha(linhaSelecionada);
+        } else {
+            selecionaLInha(0);
+        }
+    }          
 }//GEN-LAST:event_campoBuscaKeyReleased
 
 private void tabelaResultadosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabelaResultadosFocusGained
     campoBusca.requestFocus();    
 }//GEN-LAST:event_tabelaResultadosFocusGained
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Localizador().setVisible(true);
-            }
-        });
+private void campoBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscaKeyPressed
+    
+    DefaultTableModel modelo = (DefaultTableModel) tabelaResultados.getModel();
+    
+    int teclaPressionada = evt.getKeyCode();
+    int linhaSelecionada = tabelaResultados.getSelectedRow();
+    
+    final int linhasPag = (int) (tabelaResultados.getVisibleRect().getHeight() / tabelaResultados.getRowHeight());
+            
+    if(teclaPressionada == KeyEvent.VK_DOWN){     
+        int novaSelecao = linhaSelecionada+1;
+        if(novaSelecao >= modelo.getRowCount()){
+            novaSelecao = modelo.getRowCount()-1;
+        }
+        selecionaLInha(novaSelecao);        
+        return;
     }
+    
+    if(teclaPressionada == KeyEvent.VK_UP){     
+        int novaSelecao = linhaSelecionada-1;
+        if(novaSelecao <= 0){
+            novaSelecao = 0;
+        }
+        selecionaLInha(novaSelecao);
+        return;
+    }
+    
+    if(teclaPressionada == KeyEvent.VK_PAGE_DOWN){     
+        int novaSelecao = linhaSelecionada + linhasPag;
+        if(novaSelecao >= modelo.getRowCount()){
+            novaSelecao = modelo.getRowCount()-1;
+        }
+        selecionaLInha(novaSelecao);        
+        return;
+    }
+    
+    if(teclaPressionada == KeyEvent.VK_PAGE_UP){     
+        int novaSelecao = linhaSelecionada - linhasPag;
+        if(novaSelecao <= 0){
+            novaSelecao = 0;
+        }
+        selecionaLInha(novaSelecao);
+        return;
+    }
+    
+    if(teclaPressionada == KeyEvent.VK_ESCAPE){     
+        this.dispose();
+    }
+
+    if (teclasNeutras.contains(teclaPressionada)) {
+        return;
+    }
+}//GEN-LAST:event_campoBuscaKeyPressed
+
+private void tabelaResultadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaResultadosMouseClicked
+    int linhaSelecionada = tabelaResultados.getSelectedRow();
+    if (linhaSelecionada >= 0) {
+        Musica musica = (Musica) tabelaResultados.getValueAt(linhaSelecionada, 0);
+        Main.getPlayList().tocar(musica);
+        this.dispose();
+    }        
+}//GEN-LAST:event_tabelaResultadosMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField campoBusca;

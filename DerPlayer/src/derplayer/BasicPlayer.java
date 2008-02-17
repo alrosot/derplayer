@@ -7,6 +7,7 @@ package derplayer;
 import java.io.FileInputStream;
 import javax.swing.JOptionPane;
 import javazoom.jl.player.Player;
+import javazoom.jl.player.advanced.AdvancedPlayer;
 
 /**
  *
@@ -14,11 +15,11 @@ import javazoom.jl.player.Player;
  */
 public class BasicPlayer extends Thread {
 
-    private Musica musica;
-    private Player player;
+    private Musica musica;    
+    private AdvancedPlayer player;
 
     public BasicPlayer(Musica musica) {
-        this.musica = musica;
+        this.musica = musica;        
     }
 
     public void run() {
@@ -28,7 +29,7 @@ public class BasicPlayer extends Thread {
             musica.resetarTags();
 
             FileInputStream inputStream = new FileInputStream(musica.getArquivo());
-            player = new Player(inputStream);
+            player = new AdvancedPlayer(inputStream);
             String descricaoMusica = musica.toString();
             if (musica.getTagsCorretas()) {
                 if (Main.getConfiguracao().isExibirErroTags()) {
@@ -42,9 +43,9 @@ public class BasicPlayer extends Thread {
                 Main.permitirCorrecaoMusica(musica);
                 Main.avisarTagsIncorretas(descricaoMusica);
             }
-
+                        
             player.play();
-            player.close();
+            player.close();            
             Main.getPlayList().continuar();
         } catch (Exception exception) {
             if (player != null) {

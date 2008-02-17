@@ -20,7 +20,7 @@ public class Musica implements Comparable, Serializable {
     static final long serialVersionUID = 302778233463749L;
     private String arquivo;
     private String artista;
-    private String nome;
+    private String titulo;
     private boolean tagMP3Lida;
     private String toString;
     private String info;
@@ -67,8 +67,8 @@ public class Musica implements Comparable, Serializable {
             if (artista != null) {
                 info = info + " " + artista;
             }
-            if (nome != null) {
-                info = info + " " + nome;
+            if (titulo != null) {
+                info = info + " " + titulo;
             }
         }
         return info;
@@ -78,8 +78,8 @@ public class Musica implements Comparable, Serializable {
         return artista;
     }
 
-    public String getNome() {
-        return nome;
+    public String getTitulo() {
+        return titulo;
     }
 
     public void resetarTags() {
@@ -96,7 +96,7 @@ public class Musica implements Comparable, Serializable {
                 ID3v1 tags = mP3File.getID3v1Tag();
                 if (tags != null) {
                     artista = tags.getArtist();
-                    nome = tags.getSongTitle();
+                    titulo = tags.getSongTitle();
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -113,12 +113,12 @@ public class Musica implements Comparable, Serializable {
             if (artista != null) {
                 buffer.append(artista.trim());
             }
-            if (nome != null && nome.trim().length() > 0) {
+            if (titulo != null && titulo.trim().length() > 0) {
                 if (buffer.length() > 0) {
                     buffer.append(" - ");
                     tagsCorretas = true;
                 }
-                buffer.append(nome.trim());
+                buffer.append(titulo.trim());
             }
             if (buffer.length() == 0) {
                 buffer.append(getNomeArquivo(arquivo).trim());
@@ -170,8 +170,8 @@ public class Musica implements Comparable, Serializable {
         this.artista = artista;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public void atualizarTags() {
@@ -184,7 +184,7 @@ public class Musica implements Comparable, Serializable {
                 mP3File.setID3v1Tag(tags);
             }            
             tags.setArtist(artista);
-            tags.setSongTitle(nome);
+            tags.setSongTitle(titulo);
             mP3File.save();
         } catch (Exception ex) {
             ex.printStackTrace();

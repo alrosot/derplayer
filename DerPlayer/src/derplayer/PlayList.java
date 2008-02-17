@@ -38,7 +38,6 @@ class PreLoader extends Thread {
 public class PlayList {
 
     enum Estados {
-
         PLAY, STOP, PREVIOUS, NEXT, CLOSE
     }
     private Estados acaoAtual;
@@ -92,13 +91,12 @@ public class PlayList {
     }
 
     public void remover(Set<Musica> musicasSelecionadas) {
-        musicas.removeAll(musicasSelecionadas);
+        musicas.removeAll(musicasSelecionadas);        
         salvar();
     }
 
     void remover(Musica musica) {
-        musicas.remove(musica);
-        salvar();
+        musicas.remove(musica);        
     }
 
     public void tocar(Musica musica) {
@@ -198,6 +196,7 @@ public class PlayList {
     public void close() {
         acaoAtual = Estados.CLOSE;
         basicPlayer.close();
+        salvar();
         System.exit(0);
     }
 }

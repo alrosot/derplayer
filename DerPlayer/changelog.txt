@@ -1,0 +1,14 @@
+﻿20080216
+
+- Execução de música menos sujeita a engasgos
+- Janela de editar tags aceita ENTER para encerrar edicao
+- Janela de editar tags aceita ESC para cancelar edicao
+- Campos da janela editar se auto-selecionam qdo recebem foco
+- Lista de localizar musicas sempre deixa visivel a musica selecionada
+- Permitido navegar na lista mantendo a tecla (up/down) pressionada
+- Janela localizar fecha ao ser pressionado ESC
+- Linha selecionada nao se altera se a busca não mudar o resultado
+- Impelementacao de pg_up/pg_donw na janela localizar
+- Clique na lista automaticamente toca a musica
+
+
