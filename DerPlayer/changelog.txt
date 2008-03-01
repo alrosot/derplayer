@@ -1,4 +1,9 @@
-﻿20080216
+﻿20080225
+
+- Correçao de pequeno bug que julgava as tags incorretas
+- Ajuste na prioridade do player
+
+20080216
 
 - Execução de música menos sujeita a engasgos
 - Janela de editar tags aceita ENTER para encerrar edicao

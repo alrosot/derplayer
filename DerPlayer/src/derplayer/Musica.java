@@ -40,7 +40,7 @@ public class Musica implements Comparable, Serializable {
         arquivo = arquivoMusica.getAbsolutePath();
     }
     
-    public boolean getTagsCorretas(){
+    public synchronized boolean getTagsCorretas(){
         return tagsCorretas;
     }
 
@@ -82,7 +82,7 @@ public class Musica implements Comparable, Serializable {
         return titulo;
     }
 
-    public void resetarTags() {
+    public synchronized void resetarTags() {
         toString = null;
         info = null;
         tagMP3Lida = false;
@@ -105,7 +105,7 @@ public class Musica implements Comparable, Serializable {
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         if (toString == null) {
             tagsCorretas = false;
             consultaTags();
@@ -174,7 +174,7 @@ public class Musica implements Comparable, Serializable {
         this.titulo = titulo;
     }
 
-    public void atualizarTags() {
+    public synchronized void atualizarTags() {
         try {
             TagOptionSingleton.getInstance().setDefaultSaveMode(TagConstant.MP3_FILE_SAVE_OVERWRITE);
             MP3File mP3File = new MP3File(getArquivo());

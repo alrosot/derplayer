@@ -137,16 +137,15 @@ public class PlayList {
         if (acaoAtual == Estados.NEXT) {
             posicaoAtual++;
             tocar();
-        }
-
+        }        
         acaoAtual = Estados.NEXT;
     }
 
-    public void tocar() {
+    public void tocar() {        
         try {
             posicaoAtual = posicaoAtual % musicas.size();
             basicPlayer = new BasicPlayer(musicas.get(posicaoAtual));
-            //basicPlayer.setPriority(Thread.MAX_PRIORITY);
+            basicPlayer.setPriority(Thread.NORM_PRIORITY+1);            
             basicPlayer.start();
         } catch (Exception e) {
             e.printStackTrace();   
