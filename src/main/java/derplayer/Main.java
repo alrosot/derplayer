@@ -145,7 +145,7 @@ public class Main {
         popup.add(itemSair);
 
         // Instanciacao do tray
-        image = Toolkit.getDefaultToolkit().getImage(new Object().getClass().getResource("/derplayer/img/icon.png"));
+        image = Toolkit.getDefaultToolkit().getImage(new Object().getClass().getResource("/img/icon.png"));
         trayIcon = new TrayIcon(image, "DerPlayer", popup);
         trayIcon.setImageAutoSize(true);
         trayIcon.addActionListener(new CliqueListenner());
@@ -178,7 +178,7 @@ public class Main {
              outputStream.writeObject(config);
         } catch (Exception exception) {
             exception.printStackTrace();
-        }      
+        }
     }
 
     private static void carregarConfiguracoes() {

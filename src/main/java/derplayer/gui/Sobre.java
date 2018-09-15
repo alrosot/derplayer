@@ -68,7 +68,7 @@ public class Sobre extends javax.swing.JFrame {
 
         jLabel2.setText("Música! E nada mais que isso.");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/derplayer/img/icon.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon.png"))); // NOI18N
 
         jLabel4.setText("alrosot@yahoo.com.br");
 

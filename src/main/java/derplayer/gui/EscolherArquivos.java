@@ -84,7 +84,7 @@ public class EscolherArquivos extends javax.swing.JFrame {
         tabelaArquivos.setShowVerticalLines(false);
         jScrollPane1.setViewportView(tabelaArquivos);
 
-        btRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/derplayer/img/edit_remove.png"))); // NOI18N
+        btRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit_remove.png"))); // NOI18N
         btRemover.setText("Remover");
         btRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,7 +92,7 @@ public class EscolherArquivos extends javax.swing.JFrame {
             }
         });
 
-        btAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/derplayer/img/edit_add.png"))); // NOI18N
+        btAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit_add.png"))); // NOI18N
         btAdicionar.setText("Adicionar");
         btAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,7 +100,7 @@ public class EscolherArquivos extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/derplayer/img/help.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/help.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
