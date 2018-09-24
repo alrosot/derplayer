@@ -1,0 +1,6 @@
+.gradle
+DerPlayer.db
+out
+build
+playlist.conf
+derplayer.iml
